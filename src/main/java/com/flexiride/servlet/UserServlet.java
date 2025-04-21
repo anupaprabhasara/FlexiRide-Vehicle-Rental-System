@@ -38,6 +38,16 @@ public class UserServlet extends HttpServlet {
         int adminId = (int) session.getAttribute("adminId");
         Admin loggedInAdmin = adminService.getAdmin(adminId);
         request.setAttribute("loggedAdmin", loggedInAdmin);
+        
+        // Role check (only 'Admin' role can access)
+        if (!"Admin".equalsIgnoreCase(loggedInAdmin.getRole())) {
+            response.setContentType("text/html");
+            response.getWriter().println("<script type=\"text/javascript\">");
+            response.getWriter().println("alert('You do not have permission to access this page.');");
+            response.getWriter().println("window.location = '" + request.getContextPath() + "/admin/dashboard';");
+            response.getWriter().println("</script>");
+            return;
+        }
 
         // Routing
         if (action == null) {
