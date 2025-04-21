@@ -42,7 +42,7 @@ public class UserServlet extends HttpServlet {
 	        Admin loggedInAdmin = adminService.getAdmin(adminId);
 	        request.setAttribute("loggedAdmin", loggedInAdmin);
 	    
-	    
+	   
 	 // Routing
         if (action == null) {
             request.setAttribute("admins", adminService.getAllAdmins());
