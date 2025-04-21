@@ -50,7 +50,7 @@ public class AdminService {
     // Get All Admins
     public List<Admin> getAllAdmins() {
         List<Admin> admins = new ArrayList<>();
-        String query = "SELECT * FROM admins";
+        String query = "SELECT * FROM admins ORDER BY id";
         try (Connection connection = DBConnection.getConnection();
              Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);

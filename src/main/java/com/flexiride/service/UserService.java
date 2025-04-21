@@ -12,7 +12,7 @@ public class UserService {
     // Get All Users
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        String query = "SELECT * FROM users";
+        String query = "SELECT * FROM users ORDER BY user_id";
         try (Connection connection = DBConnection.getConnection();
              Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);

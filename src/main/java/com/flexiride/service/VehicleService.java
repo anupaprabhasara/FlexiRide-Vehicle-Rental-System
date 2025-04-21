@@ -56,7 +56,7 @@ public class VehicleService {
     // Get All Vehicles
     public List<Vehicle> getAllVehicles() {
         List<Vehicle> vehicles = new ArrayList<>();
-        String query = "SELECT * FROM vehicles";
+        String query = "SELECT * FROM vehicles ORDER BY vehicle_id";
         try (Connection connection = DBConnection.getConnection();
              Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
