@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Vehicle Management | FlexiRide Admin</title>
+  <title>User Management | FlexiRide Admin</title>
   <link rel="shortcut icon" href="./assets/favicon.png" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -32,14 +32,9 @@
           <input
             type="text"
             id="search"
-            placeholder="Search vehicles..."
+            placeholder="Search users..."
             class="w-full sm:w-64 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
           />
-
-          <!-- Create Button -->
-          <a href="vehicle?action=create" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded w-full sm:w-auto text-center">
-            <i class="fas fa-plus mr-2"></i> Add New Vehicle
-          </a>
         </div>
       </div>
 
@@ -49,32 +44,25 @@
           <thead class="bg-orange-500 text-white dark:bg-orange-600">
             <tr>
               <th class="px-6 py-3">#</th>
-              <th class="px-6 py-3">Vehicle Name</th>
-              <th class="px-6 py-3">Brand</th>
-              <th class="px-6 py-3">Model</th>
-              <th class="px-6 py-3">Type</th>
-              <th class="px-6 py-3">Cost/Km</th>
-              <th class="px-6 py-3">Status</th>
-              <th class="px-6 py-3 desc-col hidden">Description</th> <!-- Description column (hidden by default) -->
+              <th class="px-6 py-3">Full Name</th>
+              <th class="px-6 py-3">Email</th>
+              <th class="px-6 py-3">Phone</th>
+              <th class="px-6 py-3 desc-col hidden">NIC Number</th> <!-- Hide NIC in expanded view -->
+              <th class="px-6 py-3 desc-col hidden">Address</th>    <!-- Hide Address in expanded view -->
               <th class="px-6 py-3">Actions</th>
             </tr>
           </thead>
           <tbody id="mainTable" class="divide-y divide-gray-200 dark:divide-gray-700">
-            <c:forEach var="vehicle" items="${vehicles}" varStatus="loop">
+            <c:forEach var="user" items="${users}" varStatus="loop">
               <tr>
                 <td class="px-6 py-4">${loop.index + 1}</td>
-                <td class="px-6 py-4">${vehicle.vehicleName}</td>
-                <td class="px-6 py-4">${vehicle.brand}</td>
-                <td class="px-6 py-4">${vehicle.model}</td>
-                <td class="px-6 py-4">${vehicle.vehicleType}</td>
-                <td class="px-6 py-4">${vehicle.costPerKm}</td>
-                <td class="px-6 py-4">${vehicle.availabilityStatus}</td>
-                <td class="px-6 py-4 desc-col hidden">${vehicle.description}</td> <!-- Vehicle description field -->
+                <td class="px-6 py-4">${user.fullName}</td>
+                <td class="px-6 py-4">${user.email}</td>
+                <td class="px-6 py-4">${user.phone}</td>
+                <td class="px-6 py-4 desc-col hidden">${user.nicNumber}</td> <!-- NIC Number hidden initially -->
+                <td class="px-6 py-4 desc-col hidden">${user.address}</td>   <!-- Address hidden initially -->
                 <td class="px-6 py-4 space-x-2">
-                  <a href="vehicle?action=edit&id=${vehicle.vehicleId}" class="text-yellow-500 hover:underline">
-                    <i class="fas fa-edit"></i> Edit
-                  </a>
-                  <button class="text-red-500 hover:underline" onclick="confirmAction('vehicle?action=delete&id=${vehicle.vehicleId}')">
+                  <button class="text-red-500 hover:underline" onclick="confirmAction('user?action=delete&id=${user.userId}')">
                     <i class="fas fa-trash-alt"></i> Delete
                   </button>
                 </td>
@@ -94,9 +82,9 @@
       const descCols = document.querySelectorAll('.desc-col');
       descCols.forEach(col => {
         if (collapse) {
-          col.classList.remove('hidden'); // show description
+          col.classList.remove('hidden'); // show hidden columns (NIC + Address)
         } else {
-          col.classList.add('hidden'); // hide description
+          col.classList.add('hidden'); // hide again
         }
       });
     }
@@ -106,10 +94,10 @@
       mutations.forEach(mutation => {
         if (mutation.attributeName === 'class') {
           if (sidebar.classList.contains('w-20')) {
-            // Sidebar is collapsed
+            // Sidebar collapsed
             toggleDescriptionColumn(true);
           } else {
-            // Sidebar is expanded
+            // Sidebar expanded
             toggleDescriptionColumn(false);
           }
         }
