@@ -1,19 +1,19 @@
 package com.flexiride.model;
 
 public class User {
-	private int user_id;
-	private String full_name;
-	private String email;
-	private String password;
-	private String phone;
-	private String nic_number;
-	private String address;
-	
-	public int getUser_id() {
-		return user_id;
+	private int userId;
+    private String fullName;
+    private String email;
+    private String password;
+    private String phone;
+    private String nicNumber;
+    private String address;
+    
+	public int getUserId() {
+		return userId;
 	}
-	public String getFull_name() {
-		return full_name;
+	public String getFullName() {
+		return fullName;
 	}
 	public String getEmail() {
 		return email;
@@ -24,17 +24,17 @@ public class User {
 	public String getPhone() {
 		return phone;
 	}
-	public String getNic_number() {
-		return nic_number;
+	public String getNicNumber() {
+		return nicNumber;
 	}
 	public String getAddress() {
 		return address;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-	public void setFull_name(String full_name) {
-		this.full_name = full_name;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 	public void setEmail(String email) {
 		this.email = email;
@@ -45,8 +45,8 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public void setNic_number(String nic_number) {
-		this.nic_number = nic_number;
+	public void setNicNumber(String nicNumber) {
+		this.nicNumber = nicNumber;
 	}
 	public void setAddress(String address) {
 		this.address = address;
