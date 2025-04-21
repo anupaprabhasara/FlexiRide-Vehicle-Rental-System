@@ -45,6 +45,4 @@ public class NotificationServlet extends HttpServlet {
             request.getRequestDispatcher("notifications/index.jsp").forward(request, response);
         }
     }
-
-    
 }

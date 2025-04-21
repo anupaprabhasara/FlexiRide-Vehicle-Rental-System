@@ -34,9 +34,6 @@
             placeholder="Search notifications..."
             class="w-full sm:w-64 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
           />
-
-          <!-- Create Button -->
-          
         </div>
       </div>
 
@@ -48,8 +45,8 @@
               <th class="px-6 py-3">#</th>
               <th class="px-6 py-3">User</th>
               <th class="px-6 py-3">Vehicle</th>
-              <th class="px-6 py-3 desc-col hidden">Message</th> <!-- Hidden initially -->
-              <th class="px-6 py-3">Created At</th>
+              <th class="px-6 py-3">Message</th> <!-- Always visible -->
+              <th class="px-6 py-3 date-col hidden">Created At</th> <!-- Date column hidden by default -->
             </tr>
           </thead>
           <tbody id="mainTable" class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -58,8 +55,8 @@
                 <td class="px-6 py-4">${loop.index + 1}</td>
                 <td class="px-6 py-4">${notification.userName}</td>
                 <td class="px-6 py-4">${notification.vehicleName}</td>
-                <td class="px-6 py-4 desc-col hidden">${notification.message}</td>
-                <td class="px-6 py-4">${notification.createdAt}</td>
+                <td class="px-6 py-4">${notification.message}</td> <!-- Always show message -->
+                <td class="px-6 py-4 date-col hidden">${notification.createdAt}</td> <!-- Created At, hidden initially -->
               </tr>
             </c:forEach>
           </tbody>
@@ -70,27 +67,27 @@
 
   <%@ include file="../scripts/main.jsp"%>
 
-  <!-- === New JS Only for Table Description Toggle === -->
+  <!-- === New JS Only for Table Date Toggle === -->
   <script>
-    function toggleDescriptionColumn(collapse) {
-      const descCols = document.querySelectorAll('.desc-col');
-      descCols.forEach(col => {
+    function toggleDateColumn(collapse) {
+      const dateCols = document.querySelectorAll('.date-col');
+      dateCols.forEach(col => {
         if (collapse) {
-          col.classList.remove('hidden'); // show description/message
+          col.classList.remove('hidden'); // Show created_at in collapsed
         } else {
-          col.classList.add('hidden'); // hide description/message
+          col.classList.add('hidden'); // Hide created_at in expanded
         }
       });
     }
 
-    // Listen for Sidebar Width Change
+    // Sidebar observer
     const observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
         if (mutation.attributeName === 'class') {
           if (sidebar.classList.contains('w-20')) {
-            toggleDescriptionColumn(true);
+            toggleDateColumn(true); // Sidebar collapsed -> show created_at
           } else {
-            toggleDescriptionColumn(false);
+            toggleDateColumn(false); // Sidebar expanded -> hide created_at
           }
         }
       });
