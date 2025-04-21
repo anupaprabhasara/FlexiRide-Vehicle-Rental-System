@@ -29,7 +29,7 @@
       <!-- Header with Search and Button -->
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <h1 class="text-2xl font-semibold">
-          Hello, <span class="text-orange-600 dark:text-orange-400 font-bold">${loggedAdmin.full_name} (${loggedAdmin.role})</span> 👋
+          Hello, <span class="text-orange-600 dark:text-orange-400 font-bold">${loggedAdmin.full_name} (${loggedAdmin.role})</span>
         </h1>
     
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full md:w-auto">
