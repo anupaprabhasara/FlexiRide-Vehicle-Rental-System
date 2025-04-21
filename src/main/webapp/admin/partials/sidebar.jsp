@@ -22,7 +22,7 @@
 		<!-- Navigation -->
 		<nav id="navLinks" class="p-4 space-y-2">
 			<!-- Dashboard -->
-			<a href="#"
+			<a href="${pageContext.request.contextPath}/admin/dashboard"
 				class="flex items-center gap-4 py-2 px-3 rounded hover:bg-orange-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">
 				<i class="fas fa-table text-lg w-6 text-center"></i> 
 				<span class="sidebar-text">Admin Dashboard</span>
