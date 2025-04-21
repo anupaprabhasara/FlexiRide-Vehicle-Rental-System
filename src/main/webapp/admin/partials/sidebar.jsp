@@ -44,7 +44,7 @@
 	<!-- Logout -->
 	<div class="p-4 border-t border-gray-200 dark:border-gray-700">
 		<button
-			class="flex items-center gap-4 text-red-500 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900 px-3 py-2 w-full rounded" onclick="window.location.href='logout';">
+			class="flex items-center gap-4 text-red-500 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 px-3 py-2 w-full rounded" onclick="window.location.href='logout';">
 			<i class="fas fa-sign-out-alt w-6 text-center"></i> <span
 				class="sidebar-text">Logout</span>
 		</button>
