@@ -1,11 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Feedback Management | FlexiRide Admin</title>
+  <title>Booking Management | FlexiRide Admin</title>
   <link rel="shortcut icon" href="./assets/favicon.png" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -31,9 +32,14 @@
           <input
             type="text"
             id="search"
-            placeholder="Search feedbacks..."
+            placeholder="Search bookings..."
             class="w-full sm:w-64 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
           />
+
+          <!-- Create Button -->
+          <a href="booking?action=create" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded w-full sm:w-auto text-center">
+            <i class="fas fa-plus mr-2"></i> Add New Booking
+          </a>
         </div>
       </div>
 
@@ -44,29 +50,36 @@
             <tr>
               <th class="px-6 py-3">#</th>
               <th class="px-6 py-3">User</th>
-              <th class="px-6 py-3">Booking ID</th>
-              <th class="px-6 py-3">Rating</th>
-              <th class="px-6 py-3">Comments</th> <!-- Always show Comments -->
-              <th class="px-6 py-3 date-col hidden">Feedback Date</th> <!-- Feedback Date hidden by default -->
+              <th class="px-6 py-3">Vehicle</th>
+              <th class="px-6 py-3">Booking Date</th>
+              <th class="px-6 py-3">Start Date</th>
+              <th class="px-6 py-3">End Date</th>
+              <th class="px-6 py-3">Status</th>
+              <th class="px-6 py-3 desc-col hidden">Confirmed By</th> <!-- Hidden initially -->
               <th class="px-6 py-3">Actions</th>
             </tr>
           </thead>
           <tbody id="mainTable" class="divide-y divide-gray-200 dark:divide-gray-700">
-            <c:forEach var="feedback" items="${feedbacks}" varStatus="loop">
+            <c:forEach var="booking" items="${bookings}" varStatus="loop">
               <tr>
                 <td class="px-6 py-4">${loop.index + 1}</td>
-                <td class="px-6 py-4">${feedback.userName}</td>
-                <td class="px-6 py-4">${feedback.bookingId}</td>
-                <td class="px-6 py-4">${feedback.rating}</td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4">${booking.userName}</td>
+                <td class="px-6 py-4">${booking.vehicleName}</td>
+                <td class="px-6 py-4">${booking.bookingDate}</td>
+                <td class="px-6 py-4">${booking.rentalStartDate}</td>
+                <td class="px-6 py-4">${booking.rentalEndDate}</td>
+                <td class="px-6 py-4">${booking.status}</td>
+                <td class="px-6 py-4 desc-col hidden">
                   <c:choose>
-                    <c:when test="${empty feedback.comments}">-</c:when>
-                    <c:otherwise>${feedback.comments}</c:otherwise>
+                    <c:when test="${empty booking.confirmedByName}">-</c:when>
+                    <c:otherwise>${booking.confirmedByName}</c:otherwise>
                   </c:choose>
                 </td>
-                <td class="px-6 py-4 date-col hidden">${feedback.feedbackDate}</td> <!-- Feedback Date -->
                 <td class="px-6 py-4 space-x-2">
-                  <button class="text-red-500 hover:underline" onclick="confirmAction('feedback?action=delete&id=${feedback.feedbackId}')">
+                  <a href="booking?action=edit&id=${booking.bookingId}" class="text-yellow-500 hover:underline">
+                    <i class="fas fa-edit"></i> Edit
+                  </a>
+                  <button class="text-red-500 hover:underline" onclick="confirmAction('booking?action=delete&id=${booking.bookingId}')">
                     <i class="fas fa-trash-alt"></i> Delete
                   </button>
                 </td>
@@ -80,15 +93,15 @@
 
   <%@ include file="../scripts/main.jsp"%>
 
-  <!-- === New JS Only for Table Date Toggle === -->
+  <!-- === New JS Only for Table Description Toggle === -->
   <script>
-    function toggleDateColumn(collapse) {
-      const dateCols = document.querySelectorAll('.date-col');
-      dateCols.forEach(col => {
+    function toggleDescriptionColumn(collapse) {
+      const descCols = document.querySelectorAll('.desc-col');
+      descCols.forEach(col => {
         if (collapse) {
-          col.classList.remove('hidden'); // show feedback date
+          col.classList.remove('hidden'); // show description/extra columns
         } else {
-          col.classList.add('hidden'); // hide feedback date
+          col.classList.add('hidden'); // hide description/extra columns
         }
       });
     }
@@ -98,9 +111,9 @@
       mutations.forEach(mutation => {
         if (mutation.attributeName === 'class') {
           if (sidebar.classList.contains('w-20')) {
-            toggleDateColumn(true);
+            toggleDescriptionColumn(true);
           } else {
-            toggleDateColumn(false);
+            toggleDescriptionColumn(false);
           }
         }
       });
