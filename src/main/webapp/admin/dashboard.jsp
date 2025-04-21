@@ -22,7 +22,7 @@
       <!-- Welcome Message -->
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <h1 class="text-2xl font-semibold">
-          Welcome back, <span class="text-orange-600 dark:text-orange-400 font-bold">${loggedAdmin.full_name} (${loggedAdmin.role})</span>!
+          Welcome back, <span class="text-orange-600 dark:text-orange-400 font-bold">${loggedAdmin.full_name} (${loggedAdmin.role})</span>
         </h1>
       </div>
 

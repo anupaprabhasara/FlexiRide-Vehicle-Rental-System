@@ -63,6 +63,13 @@
 				<span class="sidebar-text">View Feedbacks</span>
 			</a>
 
+			<!-- Notification Management (new) -->
+			<a href="${pageContext.request.contextPath}/admin/notification"
+				class="flex items-center gap-4 py-2 px-3 rounded hover:bg-orange-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">
+				<i class="fas fa-bell text-lg w-6 text-center"></i> 
+				<span class="sidebar-text">View Notifications</span>
+			</a>
+
 			<!-- Expand Button -->
 			<button id="expandBtn"
 				class="hidden w-full justify-center text-gray-600 dark:text-gray-300 hover:bg-orange-100 dark:hover:bg-gray-700 py-2 rounded">
