@@ -45,7 +45,7 @@ public class AdminLoginServlet extends HttpServlet {
                 response.addCookie(removeCookie);
             }
 
-            response.sendRedirect(request.getContextPath() + "/admin/admin");
+            response.sendRedirect(request.getContextPath() + "/admin/dashboard");
         } else {
             // Failed login
             request.setAttribute("error", "Incorrect email or password!");
@@ -59,7 +59,7 @@ public class AdminLoginServlet extends HttpServlet {
         // Check if session already exists
         HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("admin") != null) {
-            response.sendRedirect(request.getContextPath() + "/admin/admin");
+            response.sendRedirect(request.getContextPath() + "/admin/dashboard");
             return;
         }
 
