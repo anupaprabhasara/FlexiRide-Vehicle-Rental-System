@@ -10,16 +10,11 @@
   <link rel="shortcut icon" href="./assets/favicon.png" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <style>
-    .transition-width {
-      transition: width 0.3s ease;
-    }
-  </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans">
 
   <%@ include file="../partials/mobilehidden.jsp"%>
-  
+
   <div class="hidden md:flex h-screen">
 
     <%@ include file="../partials/sidebar.jsp"%>
@@ -31,7 +26,7 @@
         <h1 class="text-2xl font-semibold">
           Hello, <span class="text-orange-600 dark:text-orange-400 font-bold">${loggedAdmin.full_name} (${loggedAdmin.role})</span>
         </h1>
-    
+
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full md:w-auto">
           <!-- Search Bar -->
           <input
@@ -40,7 +35,7 @@
             placeholder="Search vehicles..."
             class="w-full sm:w-64 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white"
           />
-    
+
           <!-- Create Button -->
           <a href="vehicle?action=create" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded w-full sm:w-auto text-center">
             <i class="fas fa-plus mr-2"></i> Add New Vehicle
@@ -60,6 +55,7 @@
               <th class="px-6 py-3">Type</th>
               <th class="px-6 py-3">Cost/Km</th>
               <th class="px-6 py-3">Status</th>
+              <th class="px-6 py-3 desc-col hidden">Description</th> <!-- Description column (hidden by default) -->
               <th class="px-6 py-3">Actions</th>
             </tr>
           </thead>
@@ -73,6 +69,7 @@
                 <td class="px-6 py-4">${vehicle.vehicleType}</td>
                 <td class="px-6 py-4">${vehicle.costPerKm}</td>
                 <td class="px-6 py-4">${vehicle.availabilityStatus}</td>
+                <td class="px-6 py-4 desc-col hidden">${vehicle.description}</td> <!-- Vehicle description field -->
                 <td class="px-6 py-4 space-x-2">
                   <a href="vehicle?action=edit&id=${vehicle.vehicleId}" class="text-yellow-500 hover:underline">
                     <i class="fas fa-edit"></i> Edit
@@ -90,6 +87,37 @@
   </div>
 
   <%@ include file="../scripts/main.jsp"%>
+
+  <!-- === New JS Only for Table Description Toggle === -->
+  <script>
+    function toggleDescriptionColumn(collapse) {
+      const descCols = document.querySelectorAll('.desc-col');
+      descCols.forEach(col => {
+        if (collapse) {
+          col.classList.remove('hidden'); // show description
+        } else {
+          col.classList.add('hidden'); // hide description
+        }
+      });
+    }
+
+    // Listen for Sidebar Width Change
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        if (mutation.attributeName === 'class') {
+          if (sidebar.classList.contains('w-20')) {
+            // Sidebar is collapsed
+            toggleDescriptionColumn(true);
+          } else {
+            // Sidebar is expanded
+            toggleDescriptionColumn(false);
+          }
+        }
+      });
+    });
+
+    observer.observe(document.getElementById('sidebar'), { attributes: true });
+  </script>
 
 </body>
 </html>
