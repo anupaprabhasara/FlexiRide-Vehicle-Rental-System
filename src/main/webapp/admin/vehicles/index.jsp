@@ -44,18 +44,19 @@
       </div>
 
       <!-- Data Table -->
-      <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+      <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-x-auto">
         <table class="min-w-full text-sm text-left">
           <thead class="bg-orange-500 text-white dark:bg-orange-600">
             <tr>
               <th class="px-6 py-3">#</th>
+              <th class="px-6 py-3">Image</th> <!-- Added Image Column -->
               <th class="px-6 py-3">Vehicle Name</th>
               <th class="px-6 py-3">Brand</th>
               <th class="px-6 py-3">Model</th>
               <th class="px-6 py-3">Type</th>
               <th class="px-6 py-3">Cost/Km</th>
               <th class="px-6 py-3">Status</th>
-              <th class="px-6 py-3 desc-col hidden">Description</th> <!-- Description column (hidden by default) -->
+              <th class="px-6 py-3 desc-col hidden">Description</th> <!-- Hidden by default -->
               <th class="px-6 py-3">Actions</th>
             </tr>
           </thead>
@@ -63,13 +64,21 @@
             <c:forEach var="vehicle" items="${vehicles}" varStatus="loop">
               <tr>
                 <td class="px-6 py-4">${loop.index + 1}</td>
+
+                <!-- Vehicle Image -->
+                <td class="px-6 py-4">
+                  <img src="${pageContext.request.contextPath}/assets/vehicles/${vehicle.vehicleId}.jpg"
+                       alt="Vehicle Image"
+                       class="w-16 h-16 object-cover rounded-md border border-gray-300 dark:border-gray-600">
+                </td>
+
                 <td class="px-6 py-4">${vehicle.vehicleName}</td>
                 <td class="px-6 py-4">${vehicle.brand}</td>
                 <td class="px-6 py-4">${vehicle.model}</td>
                 <td class="px-6 py-4">${vehicle.vehicleType}</td>
-                <td class="px-6 py-4">${vehicle.costPerKm}</td>
+                <td class="px-6 py-4">Rs. ${vehicle.costPerKm}</td>
                 <td class="px-6 py-4">${vehicle.availabilityStatus}</td>
-                <td class="px-6 py-4 desc-col hidden">${vehicle.description}</td> <!-- Vehicle description field -->
+                <td class="px-6 py-4 desc-col hidden">${vehicle.description}</td> <!-- Hidden Description -->
                 <td class="px-6 py-4 space-x-2">
                   <a href="vehicle?action=edit&id=${vehicle.vehicleId}" class="text-yellow-500 hover:underline">
                     <i class="fas fa-edit"></i> Edit
@@ -88,28 +97,25 @@
 
   <%@ include file="../scripts/main.jsp"%>
 
-  <!-- === New JS Only for Table Description Toggle === -->
+  <!-- === Toggle Description Column Script === -->
   <script>
     function toggleDescriptionColumn(collapse) {
       const descCols = document.querySelectorAll('.desc-col');
       descCols.forEach(col => {
         if (collapse) {
-          col.classList.remove('hidden'); // show description
+          col.classList.remove('hidden'); // Show Description
         } else {
-          col.classList.add('hidden'); // hide description
+          col.classList.add('hidden'); // Hide Description
         }
       });
     }
 
-    // Listen for Sidebar Width Change
     const observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
         if (mutation.attributeName === 'class') {
           if (sidebar.classList.contains('w-20')) {
-            // Sidebar is collapsed
             toggleDescriptionColumn(true);
           } else {
-            // Sidebar is expanded
             toggleDescriptionColumn(false);
           }
         }

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +26,8 @@
         </a>
       </div>
 
-      <form method="post" action="${pageContext.request.contextPath}/admin/vehicle" class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 space-y-6">
+      <!-- ===== Important: enctype added for file upload ===== -->
+      <form method="post" action="${pageContext.request.contextPath}/admin/vehicle" enctype="multipart/form-data" class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 space-y-6">
         <input type="hidden" name="action" value="create"/>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -83,6 +83,13 @@
             <label class="block mb-1 text-sm font-medium">Description</label>
             <textarea name="description" rows="4" placeholder="Enter vehicle description..." required
                       class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none"></textarea>
+          </div>
+
+          <!-- Upload Vehicle Image (New) -->
+          <div class="lg:col-span-2">
+            <label class="block mb-1 text-sm font-medium">Upload Vehicle Image</label>
+            <input type="file" name="vehicle_image" accept="image/*"
+                   class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-500 file:text-white hover:file:bg-orange-600">
           </div>
         </div>
 
