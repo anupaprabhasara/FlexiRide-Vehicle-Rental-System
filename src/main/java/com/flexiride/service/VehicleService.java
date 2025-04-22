@@ -9,11 +9,11 @@ import java.util.List;
 
 public class VehicleService {
 
-    // Create Vehicle
-    public boolean createVehicle(Vehicle vehicle) {
+    // Create Vehicle and Return Inserted ID
+    public int createVehicleAndGetId(Vehicle vehicle) {
         String query = "INSERT INTO vehicles (vehicle_name, brand, model, vehicle_type, cost_per_km, availability_status, description) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+             PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, vehicle.getVehicleName());
             stmt.setString(2, vehicle.getBrand());
             stmt.setString(3, vehicle.getModel());
@@ -21,11 +21,18 @@ public class VehicleService {
             stmt.setDouble(5, vehicle.getCostPerKm());
             stmt.setString(6, vehicle.getAvailabilityStatus());
             stmt.setString(7, vehicle.getDescription());
-            return stmt.executeUpdate() > 0;
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows > 0) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getInt(1); // return new vehicle_id
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return -1; // insertion failed
     }
 
     // Get Vehicle by ID

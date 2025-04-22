@@ -6,11 +6,16 @@ import com.flexiride.service.AdminService;
 import com.flexiride.service.VehicleService;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
 
 @WebServlet("/admin/vehicle")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024,  // 1MB
+                 maxFileSize = 1024 * 1024 * 5,      // 5MB
+                 maxRequestSize = 1024 * 1024 * 10)  // 10MB
 public class VehicleServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -34,8 +39,8 @@ public class VehicleServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/admin/login");
             return;
         }
-        
-        // Get logged-in admin details from DB
+
+        // Get logged-in admin details
         int adminId = (int) session.getAttribute("adminId");
         Admin loggedInAdmin = adminService.getAdmin(adminId);
         request.setAttribute("loggedAdmin", loggedInAdmin);
@@ -80,11 +85,22 @@ public class VehicleServlet extends HttpServlet {
             vehicle.setAvailabilityStatus(availabilityStatus);
             vehicle.setDescription(description);
 
-            if (vehicleService.createVehicle(vehicle)) {
+            int newVehicleId = vehicleService.createVehicleAndGetId(vehicle);
+
+            if (newVehicleId > 0) {
+                // Handle file upload
+                Part filePart = request.getPart("vehicle_image");
+                if (filePart != null && filePart.getSize() > 0) {
+                    String uploadPath = getServletContext().getRealPath("/") + "assets/vehicles/";
+                    File uploadDir = new File(uploadPath);
+                    if (!uploadDir.exists()) uploadDir.mkdirs();
+                    filePart.write(uploadPath + File.separator + newVehicleId + ".jpg");
+                }
                 response.sendRedirect("vehicle");
             } else {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
+
         } else if (action.equals("update")) {
             int vehicleId = Integer.parseInt(request.getParameter("vehicle_id"));
             String vehicleName = request.getParameter("vehicle_name");
@@ -106,13 +122,14 @@ public class VehicleServlet extends HttpServlet {
             vehicle.setDescription(description);
 
             if (vehicleService.updateVehicle(vehicle)) {
-                response.sendRedirect("vehicle");
-            } else {
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            }
-        } else if (action.equals("delete")) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            if (vehicleService.deleteVehicle(id)) {
+                // Handle file upload if a new file is uploaded
+                Part filePart = request.getPart("vehicle_image");
+                if (filePart != null && filePart.getSize() > 0) {
+                    String uploadPath = getServletContext().getRealPath("/") + "assets/vehicles/";
+                    File uploadDir = new File(uploadPath);
+                    if (!uploadDir.exists()) uploadDir.mkdirs();
+                    filePart.write(uploadPath + File.separator + vehicleId + ".jpg");
+                }
                 response.sendRedirect("vehicle");
             } else {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
