@@ -69,7 +69,7 @@
                 <td class="px-6 py-4">
                   <img src="${pageContext.request.contextPath}/assets/vehicles/${vehicle.vehicleId}.jpg"
                        alt="Vehicle Image"
-                       class="w-16 h-16 object-cover rounded-md border border-gray-300 dark:border-gray-600">
+                       class="w-32 h-24 object-cover rounded-md border border-gray-300 dark:border-gray-600">
                 </td>
 
                 <td class="px-6 py-4">${vehicle.vehicleName}</td>
