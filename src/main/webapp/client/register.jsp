@@ -94,7 +94,7 @@
         <!-- Login Link -->
         <div class="text-center text-sm text-gray-500 dark:text-gray-400 pt-4">
           Already have an account?
-          <a href="login.jsp" class="text-orange-500 hover:text-orange-600 font-medium">Login</a>
+          <a href="${pageContext.request.contextPath}/login" class="text-orange-500 hover:text-orange-600 font-medium">Login</a>
         </div>
       </form>
     </div>

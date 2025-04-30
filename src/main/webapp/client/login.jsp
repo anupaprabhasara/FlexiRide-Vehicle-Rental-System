@@ -73,7 +73,7 @@
         <!-- Register -->
         <div class="text-center text-sm text-gray-500 dark:text-gray-400 pt-4">
           Don’t have an account?
-          <a href="register.jsp" class="text-orange-500 hover:text-orange-600 font-medium">Register</a>
+          <a href="${pageContext.request.contextPath}/register" class="text-orange-500 hover:text-orange-600 font-medium">Register</a>
         </div>
       </form>
     </div>
