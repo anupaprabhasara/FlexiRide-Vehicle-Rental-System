@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="bg-gray-100 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans">
+
   <!-- Client Header (Logged In User) -->
   <%@ include file="./partials/header.jsp"%>
 
@@ -19,17 +21,28 @@
     <div class="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
 
       <!-- Card Header -->
-      <div class="bg-orange-500 dark:bg-gray-800 px-6 pt-12 text-center">
-        <h2 class="text-3xl font-bold text-white">Login to FlexiRide</h2>
+      <div class="bg-white dark:bg-gray-800 px-6 pt-12 text-center">
+        <h2 class="text-3xl font-bold text-gray-800/90 dark:text-gray-100/90">Login to FlexiRide</h2>
       </div>
 
       <!-- Login Form -->
-      <form action="login" method="post" class="px-6 py-8 space-y-6">
+      <form action="${pageContext.request.contextPath}/login" method="post" class="px-6 py-8 space-y-6">
+
+        <!-- Error Message -->
+        <c:if test="${not empty error}">
+		  <div class="text-sm font-medium px-4 py-3 rounded border 
+		              bg-red-100 text-red-800 border-red-400/50 
+		              dark:bg-red-900/25 dark:text-red-200 dark:border-red-600">
+		    ${error}
+		  </div>
+		</c:if>
+
         <!-- Email -->
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
           <input type="email" name="email" id="email" required autocomplete="email"
             placeholder="you@example.com"
+            value="${email != null ? email : rememberedEmail}"
             class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500" />
         </div>
 
@@ -44,7 +57,8 @@
         <!-- Actions -->
         <div class="flex items-center justify-between">
           <label class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400">
-            <input type="checkbox" class="form-checkbox text-orange-500" />
+            <input type="checkbox" name="remember" class="form-checkbox text-orange-500"
+              <c:if test="${not empty rememberedEmail}">checked</c:if> />
             <span class="ml-2">Remember me</span>
           </label>
           <a href="#" class="text-sm text-orange-500 hover:text-orange-600 font-medium">Forgot Password?</a>
@@ -65,7 +79,7 @@
     </div>
   </main>
 
-  <!-- Optimized Footer -->
+  <!-- Footer -->
   <%@ include file="./partials/footer.jsp"%>
 </body>
 </html>
