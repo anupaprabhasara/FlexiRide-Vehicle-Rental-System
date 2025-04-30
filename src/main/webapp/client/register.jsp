@@ -99,6 +99,7 @@
       </form>
     </div>
   </main>
+  
   <!-- Footer -->
   <%@ include file="./partials/footer.jsp" %>
   
