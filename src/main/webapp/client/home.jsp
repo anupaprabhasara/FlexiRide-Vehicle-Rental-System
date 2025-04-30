@@ -55,7 +55,7 @@
               <p class="text-sm text-gray-500 dark:text-gray-400">${v.brand} • ${v.vehicleType}</p>
               <div class="flex items-center justify-between mt-4">
                 <span class="text-lg font-semibold text-orange-500">Rs ${v.costPerKm}/km</span>
-                <a href="vehicle-details.jsp?id=${v.vehicleId}" class="text-sm bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-full transition">
+                <a href="view-vehicle?id=${v.vehicleId}" class="text-sm bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-full transition">
                   View Details
                 </a>
               </div>
