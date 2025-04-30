@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FlexiRide | Contact</title>
-  <link rel="shortcut icon" href="./assets/favicon.png" type="image/x-icon">
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/client/assets/favicon.png" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -21,13 +22,21 @@
   </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans">
-  <!-- Client Header (Logged In User) -->
-  <%@ include file="./partials/sessionheader.jsp"%>
+  
+  <!-- Dynamic Header -->
+  <c:choose>
+    <c:when test="${isLoggedIn}">
+      <jsp:include page="./partials/sessionheader.jsp" />
+    </c:when>
+    <c:otherwise>
+      <jsp:include page="./partials/header.jsp" />
+    </c:otherwise>
+  </c:choose>
 
   <!-- Page Hero Section -->
   <section class="relative w-full h-[480px] overflow-hidden">
     <!-- Background Image -->
-    <img src="./assets/contact.jpg" 
+    <img src="${pageContext.request.contextPath}/client/assets/contact.jpg" 
          alt="All Vehicles Hero" 
          class="w-full h-full object-cover">
     
