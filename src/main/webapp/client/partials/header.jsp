@@ -6,12 +6,12 @@
     
     <!-- Logo -->
     <div class="flex items-center gap-2 text-orange-600 dark:text-orange-400 font-bold text-2xl">
-      <a href=""><i class="fas fa-car-side"></i><span class="ml-2">FlexiRide</span></a>
+      <a href="${pageContext.request.contextPath}/"><i class="fas fa-car-side"></i><span class="ml-2">FlexiRide</span></a>
     </div>
 
     <!-- Navigation Menu -->
     <nav class="flex gap-8 items-center text-gray-700 dark:text-gray-200 text-base font-medium">
-      <a href="${pageContext.request.contextPath}/home" class="hover:text-orange-500 flex items-center gap-2">
+      <a href="${pageContext.request.contextPath}/" class="hover:text-orange-500 flex items-center gap-2">
         <i class="fas fa-home"></i> Home
       </a>
       <a href="${pageContext.request.contextPath}/vehicles" class="hover:text-orange-500 flex items-center gap-2">
