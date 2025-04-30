@@ -99,9 +99,125 @@
       </form>
     </div>
   </main>
-
   <!-- Footer -->
   <%@ include file="./partials/footer.jsp" %>
+  
+  <!-- ... your existing HTML and form above remains unchanged ... -->
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.querySelector("form");
+    const registerBtn = form.querySelector("button[type='submit']");
+    
+    const fields = {
+      fullName: document.getElementById("full_name"),
+      email: document.getElementById("email"),
+      password: document.getElementById("password"),
+      phone: document.getElementById("phone"),
+      nic: document.getElementById("nic_number"),
+      address: document.getElementById("address"),
+    };
+
+    const errors = {};
+
+    const showError = (field, message) => {
+      let err = field.nextElementSibling;
+      if (!err || !err.classList.contains("error-msg")) {
+        err = document.createElement("div");
+        err.className = "text-sm text-red-600 mt-1 error-msg";
+        field.parentNode.appendChild(err);
+      }
+      err.innerText = message;
+    };
+
+    const clearError = (field) => {
+      let err = field.nextElementSibling;
+      if (err && err.classList.contains("error-msg")) {
+        err.remove();
+      }
+    };
+
+    const validateEmail = () => {
+      const val = fields.email.value.trim();
+      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!pattern.test(val)) {
+        showError(fields.email, "Enter a valid email.");
+        errors.email = true;
+      } else {
+        clearError(fields.email);
+        delete errors.email;
+      }
+    };
+
+    const validatePassword = () => {
+      const val = fields.password.value;
+      const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+      if (!pattern.test(val)) {
+        showError(fields.password, "Min 8 chars with uppercase, lowercase, number, and symbol.");
+        errors.password = true;
+      } else {
+        clearError(fields.password);
+        delete errors.password;
+      }
+    };
+
+    const validatePhone = () => {
+      const val = fields.phone.value.trim();
+      const pattern = /^0\d{9}$/;
+      if (!pattern.test(val)) {
+        showError(fields.phone, "Phone must start with 0 and be 10 digits.");
+        errors.phone = true;
+      } else {
+        clearError(fields.phone);
+        delete errors.phone;
+      }
+    };
+
+    const validateNIC = () => {
+      const val = fields.nic.value.trim();
+      const pattern12 = /^\d{12}$/;
+      const patternOld = /^\d{9}[vV]$/;
+      if (!pattern12.test(val) && !patternOld.test(val)) {
+        showError(fields.nic, "NIC must be 12 digits or 9 digits + V/v.");
+        errors.nic = true;
+      } else {
+        clearError(fields.nic);
+        delete errors.nic;
+      }
+    };
+
+    const updateRegisterState = () => {
+      const hasErrors = Object.keys(errors).length > 0;
+      const allFilled = Object.values(fields).every(f => f.value.trim() !== "");
+      if (hasErrors || !allFilled) {
+        registerBtn.disabled = true;
+        registerBtn.classList.add("opacity-50", "cursor-not-allowed");
+      } else {
+        registerBtn.disabled = false;
+        registerBtn.classList.remove("opacity-50", "cursor-not-allowed");
+      }
+    };
+
+    fields.email.addEventListener("input", () => { validateEmail(); updateRegisterState(); });
+    fields.password.addEventListener("input", () => { validatePassword(); updateRegisterState(); });
+    fields.phone.addEventListener("input", () => { validatePhone(); updateRegisterState(); });
+    fields.nic.addEventListener("input", () => { validateNIC(); updateRegisterState(); });
+    fields.fullName.addEventListener("input", updateRegisterState);
+    fields.address.addEventListener("input", updateRegisterState);
+
+    // Set initial state
+    registerBtn.disabled = true;
+    registerBtn.classList.add("opacity-50", "cursor-not-allowed");
+  });
+</script>
+
+
+
+
+  
 
 </body>
 </html>
+
+    
