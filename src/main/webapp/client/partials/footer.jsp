@@ -15,10 +15,10 @@
     <div>
       <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Links</h3>
       <ul class="space-y-2 text-sm">
-        <li><a href="#" class="hover:text-orange-500 transition">Home</a></li>
-        <li><a href="#" class="hover:text-orange-500 transition">Vehicles</a></li>
-        <li><a href="#" class="hover:text-orange-500 transition">About Us</a></li>
-        <li><a href="#" class="hover:text-orange-500 transition">Contact</a></li>
+        <li><a href="${pageContext.request.contextPath}/" class="hover:text-orange-500 transition">Home</a></li>
+        <li><a href="${pageContext.request.contextPath}/vehicles" class="hover:text-orange-500 transition">Vehicles</a></li>
+        <li><a href="${pageContext.request.contextPath}/about" class="hover:text-orange-500 transition">About Us</a></li>
+        <li><a href="${pageContext.request.contextPath}/contact" class="hover:text-orange-500 transition">Contact</a></li>
       </ul>
     </div>
 
