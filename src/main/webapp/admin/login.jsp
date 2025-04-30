@@ -56,7 +56,7 @@
 		    <label class="block text-sm mb-1" for="password">Password</label>
 		    <div class="flex items-center border border-gray-300 dark:border-gray-700 rounded px-3 py-2 bg-white dark:bg-gray-700 relative">
 		      <i class="fas fa-lock text-gray-400 mr-2"></i>
-		      <input name="password" id="password" type="password" placeholder="∗∗∗∗∗∗∗∗"
+		      <input name="password" id="password" type="password" placeholder="••••••••"
 		             required
 		             class="w-full bg-transparent focus:outline-none text-gray-800 dark:text-gray-100 pr-8">
 		      <button type="button" id="togglePassword" class="absolute right-3 text-gray-500 hover:text-orange-500 focus:outline-none">
