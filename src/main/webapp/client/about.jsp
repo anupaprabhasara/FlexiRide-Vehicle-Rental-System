@@ -62,7 +62,7 @@
           With a wide fleet ranging from compact cars to heavy-duty trucks, we ensure seamless booking, competitive pricing, 
           and exceptional customer support, making your journey smooth and memorable.
         </p>
-        <a href="#vehicles" 
+        <a href="${pageContext.request.contextPath}/vehicles" 
            class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-full text-lg transition">
           Browse Vehicles
         </a>
