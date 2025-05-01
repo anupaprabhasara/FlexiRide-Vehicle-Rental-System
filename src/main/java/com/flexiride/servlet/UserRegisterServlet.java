@@ -12,11 +12,10 @@ import java.io.IOException;
 public class UserRegisterServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private final UserService userService = new UserService();
+    private UserService userService = new UserService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Get registration form data
         String fullName = request.getParameter("full_name");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -24,53 +23,61 @@ public class UserRegisterServlet extends HttpServlet {
         String nicNumber = request.getParameter("nic_number");
         String address = request.getParameter("address");
 
-        // Create User object
-        User newUser = new User();
-        newUser.setFullName(fullName);
-        newUser.setEmail(email);
-        newUser.setPassword(password);
-        newUser.setPhone(phone);
-        newUser.setNicNumber(nicNumber);
-        newUser.setAddress(address);
+        // Input validation
+        String error = null;
 
-        // Attempt to create user
-        boolean isCreated = userService.createUser(newUser);
-
-        if (isCreated) {
-            // Fetch the created user to retrieve ID and other details
-            User registeredUser = userService.getAllUsers().stream()
-                    .filter(u -> u.getEmail().equalsIgnoreCase(email))
-                    .findFirst()
-                    .orElse(null);
-
-            if (registeredUser != null) {
-                // Start session
-                HttpSession session = request.getSession(true);
-                session.setAttribute("userSession", registeredUser);
-                session.setAttribute("userIdSession", registeredUser.getUserId());
-                session.setAttribute("userFullNameSession", registeredUser.getFullName());
-                session.setMaxInactiveInterval(30 * 60);
-
-                response.sendRedirect(request.getContextPath() + "/");
-                return;
-            }
+        if (fullName == null || fullName.trim().isEmpty()) {
+            error = "Full name is required.";
+        } else if (email == null || !email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) {
+            error = "Invalid email format.";
+        } else if (password == null || !password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$")) {
+            error = "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.";
+        } else if (phone == null || !phone.matches("^0\\d{9}$")) {
+            error = "Phone number must start with 0 and be 10 digits long.";
+        } else if (nicNumber == null || !(nicNumber.matches("^\\d{12}$") || nicNumber.matches("^\\d{9}[vV]$"))) {
+            error = "NIC must be 12 digits or 9 digits followed by 'V' or 'v'.";
+        } else if (address == null || address.trim().isEmpty()) {
+            error = "Address is required.";
         }
 
-        // On failure
-        request.setAttribute("error", "Registration failed. Try again.");
-        request.setAttribute("inputUser", newUser); // For repopulation
+        if (error != null) {
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("/client/register.jsp").forward(request, response);
+            return;
+        }
+
+        // Create user object
+        User user = new User();
+        user.setFullName(fullName);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setPhone(phone);
+        user.setNicNumber(nicNumber);
+        user.setAddress(address);
+
+        boolean success = userService.createUser(user);
+
+        if (success) {
+            request.setAttribute("success", "Registration successful! Redirecting to login...");
+            request.setAttribute("redirect", true);
+        } else {
+            request.setAttribute("error", "Something went wrong. Please try again.");
+        }
+
         request.getRequestDispatcher("/client/register.jsp").forward(request, response);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Prevent access if already logged in
         HttpSession session = request.getSession(false);
-        if (session != null && session.getAttribute("userSession") != null) {
-            response.sendRedirect(request.getContextPath() + "/");
-            return;
+        if (session != null && session.getAttribute("user") != null) {
+            String lastPage = request.getHeader("Referer");
+            if (lastPage == null || lastPage.contains("/register")) {
+                lastPage = request.getContextPath() + "/client/login";
+            }
+            response.sendRedirect(lastPage);
+        } else {
+            request.getRequestDispatcher("/client/register.jsp").forward(request, response);
         }
-
-        request.getRequestDispatcher("/client/register.jsp").forward(request, response);
     }
 }

@@ -28,11 +28,21 @@
       <!-- Form -->
       <form action="${pageContext.request.contextPath}/register" method="post" class="px-6 py-8 space-y-6">
 
-        <!-- Error -->
+        <!-- Success Message -->
+        <c:if test="${not empty success}">
+          <div class="bg-green-100 text-green-800 px-4 py-2 rounded-md text-sm text-center font-medium" id="success-msg">
+            ${success}
+          </div>
+          <script>
+            setTimeout(function () {
+              window.location.href = '${pageContext.request.contextPath}/login';
+            }, 3000);
+          </script>
+        </c:if>
+
+        <!-- Error Message -->
         <c:if test="${not empty error}">
-          <div class="text-sm font-medium px-4 py-3 rounded border 
-                      bg-red-100 text-red-800 border-red-400/50 
-                      dark:bg-red-900/25 dark:text-red-200 dark:border-red-600">
+          <div class="bg-red-100 text-red-800 px-4 py-2 rounded-md text-sm text-center font-medium">
             ${error}
           </div>
         </c:if>
@@ -103,12 +113,13 @@
   <!-- Footer -->
   <%@ include file="./partials/footer.jsp" %>
   
-  <!-- ... your existing HTML and form above remains unchanged ... -->
+  
+   <!-- Client-side validation -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const form = document.querySelector("form");
       const registerBtn = form.querySelector("button[type='submit']");
-      
+
       const fields = {
         fullName: document.getElementById("full_name"),
         email: document.getElementById("email"),
