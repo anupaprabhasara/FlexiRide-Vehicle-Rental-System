@@ -229,7 +229,7 @@
       }
       // Ensure the button is enabled even when characters are entered temporarily
        updateSubmitState();
-    });*/
+    });
 
     // Deletion with email confirmation via AJAX
     deleteBtn.addEventListener("click", async (event) => {
@@ -267,6 +267,19 @@
       } catch (error) {
         console.error("Account deletion failed:", error);
         alert("Something went wrong. Please try again.");
+      }
+    });
+
+    // Save Changes button with confirmation prompt
+    submitBtn.addEventListener("click", (event) => {
+      event.preventDefault();  // Prevent form submission before confirmation
+
+      // Show confirmation prompt
+      const confirmSave = confirm("Are you sure you want to save the changes?");
+      if (confirmSave) {
+        form.submit();  // Submit the form if confirmed
+      } else {
+        alert("Changes were not saved.");
       }
     });
   });
