@@ -56,6 +56,33 @@ public class BookingService {
         }
         return null;
     }
+    
+    // Get Bookings by User ID
+    public List<Booking> getBookingsByUser(int userId) {
+        List<Booking> bookings = new ArrayList<>();
+        String query = "SELECT * FROM bookings_view WHERE user_name = (SELECT full_name FROM users WHERE user_id = ?) ORDER BY booking_id DESC";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Booking booking = new Booking();
+                booking.setBookingId(rs.getInt("booking_id"));
+                booking.setUserName(rs.getString("user_name"));
+                booking.setVehicleName(rs.getString("vehicle_name"));
+                booking.setBookingDate(rs.getString("booking_date"));
+                booking.setRentalStartDate(rs.getString("rental_start_date"));
+                booking.setRentalEndDate(rs.getString("rental_end_date"));
+                booking.setStatus(rs.getString("status"));
+                booking.setConfirmedByName(rs.getString("confirmed_by"));
+                bookings.add(booking);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bookings;
+    }
 
     // Get All Bookings
     public List<Booking> getAllBookings() {

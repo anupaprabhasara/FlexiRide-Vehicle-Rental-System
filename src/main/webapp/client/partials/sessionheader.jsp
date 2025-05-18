@@ -44,9 +44,9 @@
         </button>
         <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 shadow-lg rounded-lg overflow-hidden">
           <ul class="text-sm">
-            <li><a href="#" class="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-600">Profile</a></li>
-            <li><a href="#" class="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-600">My Bookings</a></li>
-            <li><a href="#" class="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-600">Settings</a></li>
+            <li><a href="${pageContext.request.contextPath}/profile" class="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-600">Profile</a></li>
+            <li><a href="${pageContext.request.contextPath}/" class="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-600">My Bookings</a></li>
+            <li><a href="${pageContext.request.contextPath}/settings" class="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-600">Settings</a></li>
           </ul>
           <div class="border-t dark:border-gray-600"></div>
           <a href="${pageContext.request.contextPath}/logout" class="block px-4 py-3 text-red-500 hover:bg-red-100 dark:hover:bg-red-900/40">Logout</a>
