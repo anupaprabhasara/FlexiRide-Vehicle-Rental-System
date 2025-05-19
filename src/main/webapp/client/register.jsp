@@ -113,8 +113,7 @@
   <!-- Footer -->
   <%@ include file="./partials/footer.jsp" %>
   
-  
-   <!-- Client-side validation -->
+  <!-- Client-side validation -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const form = document.querySelector("form");
@@ -175,8 +174,8 @@
       const validatePhone = () => {
         const val = fields.phone.value.trim();
         const pattern = /^0\d{9}$/;
-        if (!pattern.test(val)) {
-          showError(fields.phone, "Phone must start with 0 and be 10 digits.");
+        if (val && !pattern.test(val)) {
+          showError(fields.phone, "Phone must start with 0 and be exactly 10 digits.");
           errors.phone = true;
         } else {
           clearError(fields.phone);
@@ -216,6 +215,26 @@
       fields.fullName.addEventListener("input", updateRegisterState);
       fields.address.addEventListener("input", updateRegisterState);
 
+      // New validation for full name and phone
+      fields.fullName.addEventListener("input", (event) => {
+        if (/\d/.test(event.target.value)) {
+          event.target.value = event.target.value.replace(/\d/g, '');
+          showError(fields.fullName, "Numbers are not allowed in the name field.");
+        } else {
+          clearError(fields.fullName);
+        }
+      });
+
+      fields.phone.addEventListener("input", (event) => {
+        if (/[a-zA-Z]/.test(event.target.value)) {
+          event.target.value = event.target.value.replace(/[a-zA-Z]/g, '');
+          showError(fields.phone, "Characters are not allowed in the phone number field.");
+        } else {
+          clearError(fields.phone);
+        }
+        updateRegisterState();
+      });
+
       // Set initial state
       registerBtn.disabled = true;
       registerBtn.classList.add("opacity-50", "cursor-not-allowed");
@@ -224,3 +243,7 @@
 
 </body>
 </html>
+
+
+
+
